@@ -7,9 +7,13 @@ const CHROMIUM_PATH =
 
 async function getBrowser() {
   if (process.env.VERCEL_ENV === "production") {
-    const chromium = await import("@sparticuz/chromium-min").then(mod => mod.default);
+    const chromium = await import("@sparticuz/chromium-min").then(
+      (mod) => mod.default
+    );
 
-    const puppeteerCore = await import("puppeteer-core").then(mod => mod.default);
+    const puppeteerCore = await import("puppeteer-core").then(
+      (mod) => mod.default
+    );
 
     const executablePath = await chromium.executablePath(CHROMIUM_PATH);
 
@@ -17,11 +21,11 @@ async function getBrowser() {
       args: chromium.args,
       defaultViewport: chromium.defaultViewport,
       executablePath,
-      headless: chromium.headless
+      headless: chromium.headless,
     });
     return browser;
   } else {
-    const puppeteer = await import("puppeteer").then(mod => mod.default);
+    const puppeteer = await import("puppeteer").then((mod) => mod.default);
 
     const browser = await puppeteer.launch();
     return browser;
@@ -37,7 +41,7 @@ export async function GET(request: NextRequest) {
   await browser.close();
   return new NextResponse(pdf, {
     headers: {
-      "Content-Type": "application/pdf"
-    }
+      "Content-Type": "application/pdf",
+    },
   });
 }
